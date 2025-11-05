@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cyufn16bo6w1"]
+
+[ext_resource type="Texture2D" uid="uid://k2hxwc7uy6g5" path="res://Idle.png" id="1_kida2"]
+[ext_resource type="Script" uid="uid://htaw4ps04glk" path="res://PhysicsChain.cs" id="2_dyjvx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dyjvx"]
+size = Vector2(916, 917.5)
+
+[node name="ChainSegment" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, 7.62939e-06)
+scale = Vector2(30, 30)
+texture = ExtResource("1_kida2")
+
+[node name="ChainSegment" type="RigidBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, -4.75)
+shape = SubResource("RectangleShape2D_dyjvx")
