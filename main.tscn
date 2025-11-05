@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://ddgeri84nfqht"]
+[gd_scene load_steps=12 format=3 uid="uid://ddgeri84nfqht"]
 
 [ext_resource type="Texture2D" uid="uid://y810lah5fdo8" path="res://Dust Particle.png" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://dixttqre2v4q4" path="res://ParticleSystem.cs" id="1_ig7tw"]
 [ext_resource type="Shader" uid="uid://cufa2562bcb0h" path="res://custom_particle.gdshader" id="2_h2yge"]
 [ext_resource type="Script" uid="uid://htaw4ps04glk" path="res://PhysicsChain.cs" id="4_lquwl"]
-[ext_resource type="PackedScene" uid="uid://cyufn16bo6w1" path="res://ChainSegment.tscn" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://bdav8mlmqlwca" path="res://ChainSegment.tscn" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://c1q50ad02j508" path="res://LaserDetector.cs" id="6_7mycd"]
+[ext_resource type="Script" uid="uid://um8ctn2sp82b" path="res://Player.cs" id="7_272bh"]
+[ext_resource type="Texture2D" uid="uid://lu0xsm7qaatx" path="res://Jump (32x32).png" id="8_5vw27"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h2yge"]
 shader = ExtResource("2_h2yge")
@@ -22,13 +25,17 @@ gravity = Vector3(0, 30, 0)
 scale_min = 0.6
 scale_max = 1.2
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5vw27"]
+
 [node name="Main" type="Node2D"]
 
 [node name="ParticleSystem" type="Node2D" parent="."]
+position = Vector2(291, 325)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="ParticleSystem"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_h2yge")
+position = Vector2(1, 1)
 amount = 400
 texture = ExtResource("1_0xm2m")
 lifetime = 2.0
@@ -42,9 +49,27 @@ process_material = SubResource("ParticleProcessMaterial_1bvp3")
 script = ExtResource("1_ig7tw")
 
 [node name="PhysicsDemo" type="Node2D" parent="."]
+position = Vector2(600, 120)
 script = ExtResource("4_lquwl")
 SegmentScene = ExtResource("5_lquwl")
 
 [node name="LaserSystem" type="Node2D" parent="."]
+position = Vector2(135, 208)
+script = ExtResource("6_7mycd")
+LaserLength = 600.0
+PlayerPath = NodePath("../Player")
 
 [node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(104, 88)
+collision_layer = 3
+motion_mode = 1
+script = ExtResource("7_272bh")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Player"]
+gravity_scale = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CapsuleShape2D_5vw27")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("8_5vw27")
