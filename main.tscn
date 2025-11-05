@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://ddgeri84nfqht"]
+
+[ext_resource type="Texture2D" uid="uid://y810lah5fdo8" path="res://Dust Particle.png" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://dixttqre2v4q4" path="res://ParticleSystem.cs" id="1_ig7tw"]
+[ext_resource type="Shader" uid="uid://cufa2562bcb0h" path="res://custom_particle.gdshader" id="2_h2yge"]
+[ext_resource type="Script" uid="uid://htaw4ps04glk" path="res://PhysicsChain.cs" id="4_lquwl"]
+[ext_resource type="PackedScene" uid="uid://cyufn16bo6w1" path="res://ChainSegment.tscn" id="5_lquwl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h2yge"]
+shader = ExtResource("2_h2yge")
+shader_parameter/wave_intensity = 0.2
+shader_parameter/color_start = Color(1, 0.5, 0, 1)
+shader_parameter/color_end = Color(1, 0, 0.5, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1bvp3"]
+particle_flag_disable_z = true
+angle_min = 25.0
+angle_max = 40.0
+initial_velocity_min = 80.0
+initial_velocity_max = 140.0
+gravity = Vector3(0, 30, 0)
+scale_min = 0.6
+scale_max = 1.2
+
+[node name="Main" type="Node2D"]
+
+[node name="ParticleSystem" type="Node2D" parent="."]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="ParticleSystem"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_h2yge")
+amount = 400
+texture = ExtResource("1_0xm2m")
+lifetime = 2.0
+preprocess = 1.0
+explosiveness = 1.0
+randomness = 0.4
+fixed_fps = 0
+draw_order = 0
+trail_lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_1bvp3")
+script = ExtResource("1_ig7tw")
+
+[node name="PhysicsDemo" type="Node2D" parent="."]
+script = ExtResource("4_lquwl")
+SegmentScene = ExtResource("5_lquwl")
+
+[node name="LaserSystem" type="Node2D" parent="."]
+
+[node name="Player" type="CharacterBody2D" parent="."]
